@@ -9,7 +9,7 @@ function Responses({ onBack }) {
   useEffect(() => {
     setLoading(true);
     setLoadError("");
-    axios.get(`${API_URL}/forms/demo-form-1/responses`)
+    axios.get("https://form-builder-airtable-1.onrender.com/forms/demo-form-1/responses")
 
       .then((res) => {
         setRows(res.data || []);

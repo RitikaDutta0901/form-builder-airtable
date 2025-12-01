@@ -26,7 +26,7 @@ function App() {
 
     // UPDATED: Using localhost:5000 directly
     axios
-    .get(`${API_URL}/forms/demo-form-1`)
+    .get("https://form-builder-airtable-1.onrender.com/forms/demo-form-1")
       .then((res) => {
         setForm(res.data);
         setAnswers({});
@@ -52,7 +52,7 @@ function App() {
 
    
     axios
-  .post(`${API_URL}/forms/demo-form-1/submit`, { answers })
+  .post("https://form-builder-airtable-1.onrender.com/forms/demo-form-1/submit", { answers })
 
       .then(() => {
         setSubmitted(true);

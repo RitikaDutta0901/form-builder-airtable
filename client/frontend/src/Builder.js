@@ -52,7 +52,7 @@ function Builder({ onBack }) {
   
     // UPDATED: Using localhost:5000 directly
     axios
-    .post(`${API_URL}/admin/forms/demo-form-1`, {
+    .post("https://form-builder-airtable-1.onrender.com/admin/forms/demo-form-1", {
         questions: extraQuestions, // ONLY extras, backend adds defaults
       })
       .then(() => {
