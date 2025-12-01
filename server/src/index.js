@@ -13,11 +13,11 @@ import { shouldShowQuestion } from "./utils/conditionalLogic.js";
 const DEMO_USER_ID = "demo-user-1";
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT||5000 ;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:3000", // later add your deployed frontend origin here
     credentials: true,
   })
 );
@@ -27,8 +27,13 @@ app.use(express.json());
 // MongoDB setup
 // ---------------------------------------------------
 
-const MONGO_URL =
-  process.env.MONGO_URL || "mongodb://127.0.0.1:27017/form_builder";
+// Enforce MONGO_URL so we don't silently fall back to localhost
+if (!process.env.MONGO_URL) {
+  console.error("\n❌ MONGO_URL is NOT set in environment variables.\n");
+  process.exit(1);
+}
+
+const MONGO_URL = process.env.MONGO_URL;
 
 mongoose
   .connect(MONGO_URL)
@@ -40,12 +45,29 @@ mongoose
     console.log("MongoDB connection error:", err.message);
   });
 
-// simple models
+// ---------------------------------------------------
+// Mongoose schemas
+// ---------------------------------------------------
 
 const formSchema = new mongoose.Schema({
+  // internal form id (like "demo-form-1")
   id: String,
+
+  // human title
   title: String,
-  questions: Array,
+
+  // simple "owner" string – for now we just use demo-user-1
+  ownerId: { type: String, default: "demo-user-1" },
+
+  // where this form is stored in Airtable (optional)
+  airtableBaseId: { type: String, default: null },
+  airtableTableName: { type: String, default: null },
+
+  // list of questions – allow full objects (fix CastError)
+  questions: {
+    type: [mongoose.Schema.Types.Mixed],
+    default: [],
+  },
 });
 
 const responseSchema = new mongoose.Schema(
@@ -161,11 +183,23 @@ async function ensureDefaultForm() {
     await Form.findOneAndUpdate(
       { id: "demo-form-1" },
       {
-        id: "demo-form-1",
-        title: "Demo Form with Role",
-        questions: baseQuestions,
+        $set: {
+          id: "demo-form-1",
+          title: "Demo Form with Role",
+          ownerId: DEMO_USER_ID,
+          airtableBaseId: process.env.AIRTABLE_BASE_ID || null,
+          airtableTableName: process.env.AIRTABLE_TABLE_NAME || null,
+          questions: baseQuestions.map((q) => ({
+            questionKey: q.questionKey,
+            label: q.label,
+            type: q.type,
+            required: q.required,
+            conditionalRules: q.conditionalRules || null,
+            fieldId: null,
+          })),
+        },
       },
-      { upsert: true }
+      { upsert: true, new: true }
     );
 
     console.log("Default form reset to base questions");
