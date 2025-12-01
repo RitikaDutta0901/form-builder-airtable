@@ -5,9 +5,6 @@ Users can log in via Airtable, select bases/tables, generate forms dynamically, 
 Frontend (Netlify)=https://luminous-starship-6da54b.netlify.app
  Backend (Render)=https://form-builder-airtable-1.onrender.com
 
- Frontend (Netlify)=https://luminous-starship-6da54b.netlify.app
-Backend (Render)=https://form-builder-airtable-1.onrender.com
-
 Core Features
 1. Airtable OAuth Login
 Secure OAuth authentication
@@ -85,4 +82,14 @@ builder=![Login Page](builderPage.png)
 Frontend: https://luminous-starship-6da54b.netlify.app
 Backend:  https://form-builder-airtable-1.onrender.com
 Repo:     https://github.com/RitikaDutta0901/form-builder-airtable.git
+
+Envioronment Variable Used:
+MONGODB_URI=your_mongodb_url_here
+AIRTABLE_CLIENT_ID=your_client_id_here
+AIRTABLE_CLIENT_SECRET=your_secret_here
+AIRTABLE_REDIRECT_URL=your_callback_url_here
+AIRTABLE_API_KEY=your_api_key_here
+AIRTABLE_BASE_ID=your_base_id_here
+AIRTABLE_TABLE_NAME=your_table_id_here
+
 
