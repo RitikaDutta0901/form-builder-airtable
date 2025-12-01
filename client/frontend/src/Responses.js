@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { API_URL } from "./apiConfig";
+
 function Responses({ onBack }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
