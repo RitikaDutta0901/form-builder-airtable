@@ -1,37 +1,88 @@
-# Airtable Form Builder | MERN + OAuth + Conditional Logic
+Airtable-Connected Dynamic Form Builder (MERN)
 
-This project lets you create dynamic forms with conditional fields  
-and saves responses to both **MongoDB + Airtable**, including webhook sync.
+A fully functional Dynamic Form Builder integrated with Airtable OAuth + Airtable Tables, built using MongoDB, Express, React, Node.js.
+Users can log in via Airtable, select bases/tables, generate forms dynamically, apply conditional logic, accept responses, sync data with Airtable, and manage submissions inside MongoDB.
+Frontend (Netlify)=https://luminous-starship-6da54b.netlify.app
+ Backend (Render)=https://form-builder-airtable-1.onrender.com
 
----
+ Frontend (Netlify)=https://luminous-starship-6da54b.netlify.app
+Backend (Render)=https://form-builder-airtable-1.onrender.com
 
-## Features
+Core Features
+1. Airtable OAuth Login
+Secure OAuth authentication
+Stores user Airtable profile + access token in MongoDB
+Token enables automatic Airtable API access
 
-| Feature | Status |
-|---|---|
-| Form Builder UI | ✔ |
-| Conditional Logic (student → college, professional → company) | ✔ |
-| Save responses to MongoDB | ✔ |
-| Sync responses to Airtable | ✔ |
-| Webhook → Airtable → Mongo sync | ✔ |
-| OAuth Login (Client ID + Secret) | ✔ |
-| Response listing page | ✔ |
+ 2. Form Builder
+Select Airtable Base + Table
+Build form schema from real Airtable fields
+Supported field types:
+Short Text
+Long Text
+Single Select
+Multi Select
+Attachments
 
----
+ 3. Conditional Logic
+Configure question visibility rules
+Supported operators → equals | notEquals | contains
+Multi-condition groups (AND/OR)
 
-## Tech Stack
+4. Form Rendering
+Generates UI dynamically from stored schema
+Applies rules live during user input
+Required fields & validation included
 
-- React (simple UI, no UI framework)
-- Node + Express
-- MongoDB + Mongoose
-- Airtable OAuth + REST API
+ 5. Submit & Store Responses
+Responses are saved in MongoDB + pushed to Airtable.
+Saved fields include:
+formId
+airtableRecordId
+answers (JSON)
+createdAt
+updatedAt
 
----
+6. Response Dashboard
+/forms/:formId/responses
+View all submissions (MongoDB only)
+Fast retrieval & preview formatting
 
-## Run Locally
+7. Sync via Airtable Webhooks
+Database updates when Airtable record changes:
+Event	DB Action
+Record Updated	Response updated
+Record Deleted	Marked deletedInAirtable: true
 
-```bash
+Tech Stack
+Layer	      Tech
+Frontend	  React + JavaScript
+Backend	    Node.js + Express
+Database	  MongoDB
+Integration	Airtable OAuth, REST API, Webhooks
+Deployment	Netlify + Render
+
+
+Setup Instructions
+1. Clone Repo
+git clone https://github.com/RitikaDutta0901/form-builder-airtable.git
+cd form-builder
+
+2️⃣ Backend Setup
 cd server
 npm install
-cp sample.env.example .env       # then fill values
 node src/index.js
+
+3️⃣ Frontend Setup
+cd client/frontend
+npm install
+npm start
+
+login=![Login Page](loginPage.png)
+response=![Login Page](responsePage.png)
+builder=![Login Page](builderPage.png)
+
+Frontend: https://luminous-starship-6da54b.netlify.app
+Backend:  https://form-builder-airtable-1.onrender.com
+Repo:     https://github.com/RitikaDutta0901/form-builder-airtable.git
+
