@@ -13,14 +13,28 @@ import { shouldShowQuestion } from "./utils/conditionalLogic.js";
 const DEMO_USER_ID = "demo-user-1";
 
 const app = express();
-const PORT = process.env.PORT||5000 ;
+const PORT = process.env.PORT || 5000;
+
+// ✅ CORS CONFIG (fixed, minimal changes)
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://luminous-starship-6da54b.netlify.app",
+];
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // later add your deployed frontend origin here
-    credentials: true,
+    origin: function (origin, callback) {
+      // allow requests with no origin (like mobile apps, curl, Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log("Blocked by CORS:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   })
 );
+
 app.use(express.json());
 
 // ---------------------------------------------------
