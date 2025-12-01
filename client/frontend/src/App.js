@@ -1,9 +1,9 @@
-// client/frontend/src/App.js
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Builder from "./Builder";
 import Responses from "./Responses";
+import { API_URL } from "./apiConfig";
+
 
 // import helper from utils (shared conditional logic)
 import { shouldShowQuestion } from "./conditionalLogic";
@@ -24,8 +24,9 @@ function App() {
     setLoading(true);
     setLoadError("");
 
+    // UPDATED: Using localhost:5000 directly
     axios
-      .get("http://localhost:5000/forms/demo-form-1")
+    .get(`${API_URL}/forms/demo-form-1`)
       .then((res) => {
         setForm(res.data);
         setAnswers({});
@@ -49,8 +50,10 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
 
+   
     axios
-      .post("http://localhost:5000/forms/demo-form-1/submit", { answers })
+  .post(`${API_URL}/forms/demo-form-1/submit`, { answers })
+
       .then(() => {
         setSubmitted(true);
       })

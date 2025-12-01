@@ -1,8 +1,6 @@
-// client/frontend/src/Responses.js
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { API_URL } from "./apiConfig";
 function Responses({ onBack }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,9 +9,8 @@ function Responses({ onBack }) {
   useEffect(() => {
     setLoading(true);
     setLoadError("");
+    axios.get(`${API_URL}/forms/demo-form-1/responses`)
 
-    axios
-      .get("http://localhost:5000/forms/demo-form-1/responses")
       .then((res) => {
         setRows(res.data || []);
         setLoading(false);

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "./apiConfig";
 
 function Builder({ onBack }) {
   const [fields, setFields] = useState([]);
@@ -49,8 +50,9 @@ function Builder({ onBack }) {
       };
     });
   
+    // UPDATED: Using localhost:5000 directly
     axios
-      .post("http://localhost:5000/admin/forms/demo-form-1", {
+    .post(`${API_URL}/admin/forms/demo-form-1`, {
         questions: extraQuestions, // ONLY extras, backend adds defaults
       })
       .then(() => {
